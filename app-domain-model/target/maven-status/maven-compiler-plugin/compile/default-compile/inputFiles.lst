@@ -1,0 +1,14 @@
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/entity/Role.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/dto/ProjectDTO.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/dto/RoleDTO.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/entity/Project.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/enums/Gender.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/entity/ResponseWrapper.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/util/MapperUtil.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/enums/Status.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/entity/User.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/dto/TaskDTO.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/entity/BaseEntity.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/dto/UserDTO.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/entity/Task.java
+/Users/yasin/ticketing-project-microservices-self/app-domain-model/src/main/java/com/cydeo/dto/UserResponseDTO.java
