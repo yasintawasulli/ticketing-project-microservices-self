@@ -24,22 +24,44 @@ services:
     image: ${GROUP_ID}/user-service:${SERVICE_VERSION:-latest}
     environment:
       - "PROFILE=dev"
-      - "JAVA_OPTS:-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx256m"
+      - "CONFIGSERVER_URI=http://configserver:8888"
+      - "CONFIGSERVER_PORT=8888"
+      - "JAVA_OPTS:-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx1g"
     depends_on:
       database:
         condition: service_healthy
+      configserver:
+        condition: service_started
+    restart: on-failure
     ports:
-      - "9090:9090"
+      - "9093:9093"
     networks:
       - backend
+  #  userservice2:
+  #    image: ${GROUP_ID}/user-service:${SERVICE_VERSION:-latest}
+  #    environment:
+  #      - "PROFILE=dev"
+  #      - "JAVA_OPTS:-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx256m"
+  #    depends_on:
+  #      database:
+  #        condition: service_healthy
+  #    ports:
+  #      - "9093:9093"
+  #    networks:
+  #      - backend
   projectservice:
     image: ${GROUP_ID}/project-service:${SERVICE_VERSION:-latest}
     environment:
       - "PROFILE=dev"
-      - "JAVA_OPTS:-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx256m"
+      - "CONFIGSERVER_URI=http://configserver:8888"
+      - "CONFIGSERVER_PORT=8888"
+      - "JAVA_OPTS:-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx1g"
     depends_on:
       database:
         condition: service_healthy
+      configserver:
+        condition: service_started
+    restart: on-failure
     ports:
       - "9091:9091"
     networks:
@@ -71,6 +93,62 @@ services:
       - userservice
       - projectservice
       - taskservice
+    networks:
+      - backend
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - backend
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    container_name: prometheus
+    networks:
+      - backend
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=abc1
+    depends_on:
+      - prometheus
+    networks:
+      - backend
+  configserver:
+    image: ${GROUP_ID}/config-server:${SERVICE_VERSION:-latest}
+    ports:
+      - "8888:8888"
+    networks:
+      backend:
+        aliases:
+          - "configserver"
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.2-legacy
+    environment:
+      JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007 -Xms128m -Xmx1g
+      DB_VENDOR: postgres
+      DB_ADDR: host.docker.internal:5435
+      DB_DATABASE: "ticketing-app"
+      DB_USER: "postgres"
+      DB_PASSWORD: "admin"
+      # if keycloak doesn't start with docker, remove KEYCLOAK_USER and KEYCLOAK_PASSWORD lines
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
     networks:
       - backend
 

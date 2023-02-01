@@ -13,6 +13,7 @@
         <module>app-client-management</module>
         <module>discovery-service</module>
         <module>gateway-service</module>
+        <module>config-service</module>
     </modules>
 
     <parent>
@@ -36,6 +37,8 @@
         <spring-cloud.version>2.2.6.RELEASE</spring-cloud.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <resilience4j.version>2.1.3</resilience4j.version>
+        <micrometer-registry-prometheus.version>1.9.0</micrometer-registry-prometheus.version>
+        <open-api.version>1.6.9</open-api.version>
     </properties>
 
     <dependencyManagement>
@@ -119,7 +122,6 @@
                 <version>${spring-cloud.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-actuator</artifactId>
@@ -144,7 +146,62 @@
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-sleuth</artifactId>
+                <version>${spring-cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+                <version>${spring-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer-registry-prometheus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>${micrometer-registry-prometheus.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-server</artifactId>
+                <version>${spring-cloud.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-client</artifactId>
+                <version>${spring-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <version>${open-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${open-api.version}</version>
+            </dependency>
+
+
+
+
+
+
         </dependencies>
+
+
     </dependencyManagement>
 
     <build>
